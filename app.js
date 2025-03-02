@@ -6,7 +6,7 @@ let tentativas = 1;
 function exibirTextoNaTela(tag, texto) {
     let campo = document.querySelector(tag);
     campo.innerHTML = texto;
-    responsiveVoice.speak(texto, 'Brazilian Portuguese Female', {rate:1.2});
+    responsiveVoice.speak(texto, 'Brazilian Portuguese Female', { rate: 1.2 });
 }
 
 function exibirMensagemInicial() {
@@ -18,7 +18,11 @@ exibirMensagemInicial();
 
 function verificarChute() {
     let chute = document.querySelector('input').value;
-    
+    if (!validarEntrada(chute)) {
+        alert('Digite um número válido');
+        limparCampo();
+        return;
+    }
     if (chute == numeroSecreto) {
         exibirTextoNaTela('h1', 'Acertou!');
         let palavraTentativa = tentativas > 1 ? 'tentativas' : 'tentativa';
@@ -34,6 +38,10 @@ function verificarChute() {
         tentativas++;
         limparCampo();
     }
+}
+
+function validarEntrada(entrada) {
+    return (entrada == '' || entrada < 1 || entrada > 10) ? false : true;
 }
 
 function gerarNumeroAleatorio() {
@@ -53,8 +61,9 @@ function gerarNumeroAleatorio() {
 }
 
 function limparCampo() {
-    chute = document.querySelector('input');
+    const chute = document.querySelector('input');
     chute.value = '';
+    chute.focus();
 }
 
 function reiniciarJogo() {
